@@ -12,6 +12,10 @@
 #include <vector>
 #include <vterm.h>
 
+#define FONT_PATH "/usr/local/share/fonts/Iosevka-Nerd-Font-Complete.ttf"
+#define WIDTH  640
+#define HEIGHT 480
+
 template <typename T> class Matrix {
   T  *buf;
   int rows, cols;
@@ -370,15 +374,14 @@ int main() {
     std::cerr << "TTF_Init: " << TTF_GetError() << std::endl;
     return 1;
   }
-  TTF_Font *font = TTF_OpenFont("/home/x/.local/share/fonts/Iosevka-Nerd-Font-Complete.ttf", 48);
-  // TTF_Font* font = TTF_OpenFont("RictyDiminished-Regular.ttf", 48);
+  TTF_Font *font = TTF_OpenFont(FONT_PATH, 48);
   if (font == NULL) {
     std::cerr << "TTF_OpenFont: " << TTF_GetError() << std::endl;
     return 1;
   }
   SDL_ShowCursor(SDL_DISABLE);
   SDL_Window *window =
-      SDL_CreateWindow("term", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1024, 768, SDL_WINDOW_SHOWN);
+      SDL_CreateWindow("term", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
   if (window == NULL) {
     std::cerr << "SDL_CreateWindow: " << SDL_GetError() << std::endl;
     return 1;
@@ -412,7 +415,7 @@ int main() {
 
     terminal.processInput();
 
-    SDL_Rect rect = {0, 0, 1024, 768};
+    SDL_Rect rect = {0, 0, WIDTH, HEIGHT};
     terminal.render(renderer, rect);
     SDL_RenderPresent(renderer);
   }

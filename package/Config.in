@@ -1,0 +1,11 @@
+config BR2_PACKAGE_SDL_VTERM
+	bool "sdl_vterm"
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	depends on BR2_PACKAGE_SDL2_GFX
+	depends on BR2_PACKAGE_SDL2_MIXER
+	depends on BR2_PACKAGE_SDL2_TTF
+	depends on BR2_PACKAGE_LIBVTERM
+	help
+	  Terminal using SDL, vterm
+
+	  https://github.com/manyids2/sdl-vterm

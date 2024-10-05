@@ -1,10 +1,19 @@
-.PHONY : build clean
+PROJECT_NAME := vtermtest
 
-build: vtermtest
+.PHONY: configure build clean
 
-vtermtest: vtermtest.cpp
-	g++ -o vtermtest vtermtest.cpp  -lvterm -lutil -lSDL2 -lSDL2_ttf -licuuc \
-		-Wall -Wextra -g
+configure:
+	@mkdir -p build
+	cd build && cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=true -DCMAKE_BUILD_TYPE=Debug ..
+
+build:
+	cd build && make -j6
+
+run:
+	./build/$(PROJECT_NAME)
+
+install:
+	cd build && sudo make install
 
 clean:
-	rm vtermtest
+	-rm -r build
