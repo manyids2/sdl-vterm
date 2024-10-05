@@ -1,6 +1,7 @@
 # vtermtest
 
-SDL2 + vterm
+SDL2 + vterm from [https://gist.github.com/shimarin/71ace40e7443ed46387a477abf12ea70](https://gist.github.com/shimarin/71ace40e7443ed46387a477abf12ea70).
+Packaged with CMake, with libvterm for buildroot.
 
 ```aerial
 󰠱 Matrix
