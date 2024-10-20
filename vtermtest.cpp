@@ -1,5 +1,6 @@
 // g++ -o vtermtest vtermtest.cpp  -lvterm -lutil -lSDL2 -lSDL2_ttf -licuuc
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_render.h>
 #include <SDL2/SDL_ttf.h>
 #include <iostream>
 #include <pty.h>
@@ -12,9 +13,9 @@
 #include <vector>
 #include <vterm.h>
 
-#define FONT_PATH "/usr/local/share/fonts/Iosevka-Nerd-Font-Complete.ttf"
-#define WIDTH  640
-#define HEIGHT 480
+#define FONT_PATH "/usr/share/fonts/Iosevka-Nerd-Font-Complete.ttf"
+#define WIDTH     640
+#define HEIGHT    480
 
 template <typename T> class Matrix {
   T  *buf;
@@ -366,7 +367,7 @@ std::pair<pid_t, int> waitpid(pid_t pid, int options) {
 }
 
 int main() {
-  if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+  if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0) {
     std::cerr << SDL_GetError() << std::endl;
     return 1;
   }
@@ -386,10 +387,21 @@ int main() {
     std::cerr << "SDL_CreateWindow: " << SDL_GetError() << std::endl;
     return 1;
   }
-  SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC);
+  SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
   if (renderer == NULL) {
     std::cerr << "SDL_CreateRenderer: " << SDL_GetError() << std::endl;
     return 1;
+  }
+
+  // Check for joysticks
+  SDL_Joystick *joystick;
+  if (SDL_NumJoysticks() >= 1) {
+    // Load joystick
+    joystick = SDL_JoystickOpen(0);
+    if (joystick == NULL) {
+      std::cerr << "SDL_JoystickOpen: joystick == NULL " << std::endl;
+      return 1;
+    }
   }
 
   const int             rows = 32, cols = 100;
