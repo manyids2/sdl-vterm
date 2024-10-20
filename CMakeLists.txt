@@ -12,8 +12,8 @@ target_sources(${PROJECT_NAME} PRIVATE vtermtest.cpp)
 target_link_libraries(${PROJECT_NAME}
     PUBLIC
       ${SDL2_LIBRARIES}
-      ${VTERM_LIB}
-      ${ICUUC_LIB})
+      ${VTERM_LIBRARIES}
+      ${ICUUC_LIBRARIES})
 
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/Iosevka-Nerd-Font-Complete.ttf DESTINATION share/fonts)
